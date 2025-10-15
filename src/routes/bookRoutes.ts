@@ -1,9 +1,10 @@
 import express from "express";
-import { createBook, getBook } from "@/controller/bookController";
+import { createBookController, getBookController, updatedBookController } from "@/controller/bookController";
 
 const router = express.Router();
 
-router.post("/create-book", createBook);
-router.get("/books", getBook);
+router.put("/updated-Book/:id", updatedBookController)
+router.post("/create-book", createBookController);
+router.get("/books", getBookController);
 
 export default router;
