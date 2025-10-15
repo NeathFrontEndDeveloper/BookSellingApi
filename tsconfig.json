@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true, // Remove it soon
+    "allowSyntheticDefaultImports": true, // Remove it soon
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "target": "ES6",
     "module": "CommonJS",

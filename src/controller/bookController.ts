@@ -1,8 +1,30 @@
-import { createBookService } from "@/service/bookService";
-import { CreateBookInput } from "@/types/book";
+import { getBookService, createBookService, updateBookService} from "@/service/bookService";
+import { CreateBookInput, IBook} from "@/types/bookType";
 import { Request, Response } from "express";
 
-export const createBook = async (req: Request, res: Response) => {
+// Get ALl book
+export const getBookController = async (req: Request, res: Response): Promise<void> => {
+    try {
+        // Fetch all books from MongoDB
+        const books = await getBookService();
+
+        res.status(200).json({
+            success: true,
+            data: books,
+            message: "Fetched book data successfully from MongoDB.",
+        });
+    } catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).json({
+            success: false,
+            data: [],
+            message: "Failed to fetch book data.",
+        });
+    }
+};
+
+// Create Book
+export const createBookController = async (req: Request, res: Response) => {
   try {
     const bookData: CreateBookInput = req.body;
     const result = await createBookService(bookData);
@@ -16,6 +38,36 @@ export const createBook = async (req: Request, res: Response) => {
   }
 };
 
-export const getBook = async (req: Request, res: Response) => {
-  res.send("Get book endpoint");
-};
+// Update Book
+export const updatedBookController = async (req: Request, res: Response) => {
+    try {
+        const {id} = req.params;
+        const updatedData = req.body;
+
+        const updatedBookResult = await updateBookService(id, updatedData);
+
+        if(!updatedBookResult.success) {
+            res.status(404).json({
+                success: false,
+                data: null,
+                message: "Book not found."
+            })
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: updatedBookResult,
+            message: "Successfully updated book.",
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            data: null,
+            message: "Failed to update book.",
+        })
+    }
+}
+
+
