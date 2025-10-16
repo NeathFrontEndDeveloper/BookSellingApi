@@ -1,5 +1,5 @@
-import { getBookService, createBookService, updateBookService} from "@/service/bookService";
-import { CreateBookInput, IBook} from "@/types/bookType";
+import { getBookService, createBookService, updateBookService, deleteBookService, getBookByIdService} from "@/service/bookService";
+import { CreateBookInput} from "@/types/bookType";
 import { Request, Response } from "express";
 
 // Get ALl book
@@ -22,6 +22,37 @@ export const getBookController = async (req: Request, res: Response): Promise<vo
         });
     }
 };
+
+//Get Book by ID
+export const getBookByIdController = async (req: Request, res: Response):Promise<void> => {
+    try {
+        const {id} = req.params;
+        const bookById = await getBookByIdService(id);
+
+        if(!bookById.success) {
+            res.status(404).json({
+                success: false,
+                data: null,
+                message: "Book not found."
+            })
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: bookById,
+            message: "Book fetched successfully.",
+        })
+        
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            data: null,
+            message: "Failed to fetch book.",
+        })
+    }
+}
+
 
 // Create Book
 export const createBookController = async (req: Request, res: Response) => {
@@ -70,4 +101,32 @@ export const updatedBookController = async (req: Request, res: Response) => {
     }
 }
 
+// Delete Book
+export const deleteBookController = async (req: Request, res: Response):Promise<void> => {
+    try {
+        const {id} = req.params;
+        const deletedBookResult = await deleteBookService(id);
 
+        if(!deletedBookResult.success) {
+            res.status(404).json({
+                success: false,
+                data: null,
+                message: "Book not found."
+            })
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Successfully deleted book.",
+        })
+        
+    } catch (error) {
+        console.error("Error deleting book:", error);
+        res.status(500).json({
+            success: false,
+            data: null,
+            message: "Failed to delete book.",
+        })
+    }
+}
