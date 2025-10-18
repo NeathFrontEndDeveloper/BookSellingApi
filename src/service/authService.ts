@@ -13,8 +13,7 @@ export const registerService = async (req: Request, res: Response) => {
         const existingUser = await userModel.findOne({ email });
 
         if (existingUser) {
-            res.status(201).json({message: "Registered successfully."});
-            return handleAuthError(res, 401, "User already exists");
+            return handleAuthError(res, 400, "User already exists");
         }
 
         // Hash password
@@ -36,7 +35,7 @@ export const registerService = async (req: Request, res: Response) => {
         );
 
         return res.status(201).json({
-            message: "User registered successfully",
+            message: "Registered successfully.",
             data: {
                 user: {
                     id: newUser.id,
@@ -58,17 +57,17 @@ export const loginService = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
 
-        const existingUser = await userModel.findOne({ email });
-        if (!existingUser) {
+        const loginUser = await userModel.findOne({ email });
+        if (!loginUser) {
             return handleAuthError(res, 400, "Invalid credentials.");
         }
 
-        const isValidPassword = await bcrypt.compare(password, existingUser.password);
+        const isValidPassword = await bcrypt.compare(password, loginUser.password);
         if (!isValidPassword) {
             return handleAuthError(res, 400, "Invalid credentials.");
         }
         const token = jwt.sign(
-            { id: existingUser.id.toString() },
+            { id: loginUser.id.toString(), email: loginUser.email, role: loginUser.role || "user", },
             process.env.JWT_SECRET ?? "",
             { expiresIn: process.env.JWT_EXPIRES_IN || "1d" } as jwt.SignOptions
         );
@@ -79,10 +78,10 @@ export const loginService = async (req: Request, res: Response) => {
             message: "User login successfully",
             token,
             user: {
-                id: existingUser._id,
-                name: existingUser.name,
-                email: existingUser.name,
-                role: existingUser.role,
+                id: loginUser.id,
+                name: loginUser.name,
+                email: loginUser.email,
+                role: loginUser.role || "user",
             }
         })
 
