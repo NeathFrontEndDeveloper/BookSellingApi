@@ -3,7 +3,6 @@ import { userModel } from "@/models/userModel";
 import { generateToken } from "@/utils/generateToken";
 import { Request, Response } from "express";
 import { handleAuthError } from "@/constant/handleAuthError";
-import jwt from "jsonwebtoken";
 
 export const registerService = async (req: Request, res: Response) => {
     try {
@@ -66,10 +65,10 @@ export const loginService = async (req: Request, res: Response) => {
         if (!isValidPassword) {
             return handleAuthError(res, 400, "Invalid credentials.");
         }
-        const token = jwt.sign(
-            { id: loginUser.id.toString(), email: loginUser.email, role: loginUser.role || "user", },
-            process.env.JWT_SECRET ?? "",
-            { expiresIn: process.env.JWT_EXPIRES_IN || "1d" } as jwt.SignOptions
+        const token = generateToken(
+            loginUser.id.toString(),
+            loginUser.email,
+            loginUser.role || "user",
         );
 
 
