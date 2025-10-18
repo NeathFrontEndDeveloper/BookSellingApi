@@ -1,0 +1,72 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "phone": 85512345678,
+    "role": "user"
+  },
+  {
+    "name": "Alice Brown",
+    "email": "alice@example.com",
+    "password": "adminpass",
+    "phone": 85598765432,
+    "role": "admin"
+  },
+  {
+    "name": "Michael Kim",
+    "email": "michael@example.com",
+    "password": "pass456",
+    "phone": 85523456789,
+    "role": "user"
+  },
+  {
+    "name": "Sophia Lee",
+    "email": "sophia@example.com",
+    "password": "hello123",
+    "phone": 85599887766,
+    "role": "user"
+  },
+  {
+    "name": "Daniel Green",
+    "email": "daniel@example.com",
+    "password": "mypassword",
+    "phone": 85588776655,
+    "role": "user"
+  },
+  {
+    "name": "Emma White",
+    "email": "emma@example.com",
+    "password": "12345678",
+    "phone": 85555667788,
+    "role": "user"
+  },
+  {
+    "name": "Noah Johnson",
+    "email": "noah@example.com",
+    "password": "qwerty12",
+    "phone": 85566778899,
+    "role": "user"
+  },
+  {
+    "name": "Olivia Davis",
+    "email": "olivia@example.com",
+    "password": "password1",
+    "phone": 85577889900,
+    "role": "user"
+  },
+  {
+    "name": "Liam Smith",
+    "email": "liam@example.com",
+    "password": "securepass",
+    "phone": 85544556677,
+    "role": "admin"
+  },
+  {
+    "name": "Ava Wilson",
+    "email": "ava@example.com",
+    "password": "userpass",
+    "phone": 85599880011,
+    "role": "user"
+  }
+]
