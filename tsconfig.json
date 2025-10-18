@@ -2,6 +2,7 @@
   "compilerOptions": {
     "resolveJsonModule": true, // Remove it soon
     "allowSyntheticDefaultImports": true, // Remove it soon
+    "esModuleInterop": true,
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "target": "ES6",
     "module": "CommonJS",
@@ -9,7 +10,6 @@
     "baseUrl": "./",
     "outDir": "dist",
     "removeComments": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
