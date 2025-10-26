@@ -1,23 +1,21 @@
 import { Request, Response } from "express";
 import { bookModel } from "@/models/bookModel";
 import { CreateBookInput, IBook } from "@/types/bookType";
+import { handleError } from "@/constant/handleError";
 
 // Get All Books
 export const getBookService = async (req: Request, res: Response) => {
     try {
-        const books = await bookModel.find();
+        const bookData = req.body;
+        const books = await bookModel.find({bookData});
         return res.status(200).json({
             success: true,
-            data: books,
             message: "Books fetched successfully.",
+            data: books,
         });
     } catch (error) {
         console.error("Error fetching books:", error);
-        return res.status(500).json({
-            success: false,
-            data: null,
-            message: "Failed to fetch books.",
-        });
+        return handleError(res, 500, "Fetch books failed.");
     }
 };
 
@@ -28,11 +26,7 @@ export const getBookByIdService = async (req: Request, res: Response) => {
         const book = await bookModel.findById(id);
 
         if (!book) {
-            return res.status(404).json({
-                success: false,
-                data: null,
-                message: "Book not found. Or has been deleted.",
-            });
+            return handleError(res, 404, "Book not found");
         }
 
         return res.status(200).json({
@@ -40,9 +34,10 @@ export const getBookByIdService = async (req: Request, res: Response) => {
             message: "Book fetched successfully.",
             data: book,
         });
+
     } catch (error) {
         console.error("Error fetching book by ID:", error);
-        return res.status(500).json({ message: "Failed to fetch book." });
+       return handleError(res, 500, "Failed to fetch book");
     }
 };
 
@@ -53,7 +48,7 @@ export const createBookService = async (req: Request, res: Response) => {
         const existingBook = await bookModel.findOne({ title });
 
         if (existingBook) {
-            return res.status(400).json({message: "Book already exists!"});
+           return handleError(res, 400, "Book already exist")
         }
 
         const bookData: CreateBookInput = req.body;
@@ -62,16 +57,12 @@ export const createBookService = async (req: Request, res: Response) => {
 
         return res.status(201).json({
             success: true,
-            data: savedBook,
             message: "Book created successfully.",
+            data: savedBook,
         });
     } catch (error) {
         console.error("Error creating book:", error);
-        return res.status(500).json({
-            success: false,
-            data: null,
-            message: "Failed to create book.",
-        });
+        return handleError(res, 500, "Failed to creating book");
     }
 };
 
@@ -87,25 +78,17 @@ export const updateBookService = async (req: Request, res: Response) => {
         });
 
         if (!updatedBook) {
-            return res.status(404).json({
-                success: false,
-                data: null,
-                message: "Book not found.",
-            });
+           return handleError(res, 404, "Book not found.");
         }
 
         return res.status(200).json({
             success: true,
-            data: updatedBook,
             message: "Book updated successfully.",
+            data: updatedBook,
         });
     } catch (error) {
         console.error("Error updating book:", error);
-        return res.status(500).json({
-            success: false,
-            data: null,
-            message: "Failed to update book.",
-        });
+        return handleError(res, 500, "Failed to update book.");
     }
 };
 
@@ -116,16 +99,12 @@ export const deleteBookService = async (req: Request, res: Response) => {
         const deletedBook = await bookModel.findByIdAndDelete(id);
 
         if (!deletedBook) {
-            return res.status(404).json({
-                success: false,
-                data: null,
-                message: "Book not found.",
-            });
+            return handleError(res, 404, "Book not found")
         }
 
         return res.status(200).json({ message: "Book deleted successfully." });
     } catch (error) {
         console.error("Error deleting book:", error);
-        return res.status(500).json({ message: "Failed to delete book." });
+        return handleError(res, 500, "Failed to delete book");
     }
 };
