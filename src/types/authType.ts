@@ -5,7 +5,7 @@
 // }
 
 export interface AuthUser {
-    id: string;
+    _id: string;
     email: string;
     role: string;
 }

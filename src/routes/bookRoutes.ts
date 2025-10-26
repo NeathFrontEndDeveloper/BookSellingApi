@@ -1,8 +1,8 @@
-import express from "express";
+import {Router} from "express";
 import { authMiddleware, checkRoleMiddleware } from "@/middleware/authMiddleware";
 import { createBookController, getBookController, updatedBookController, deleteBookController, getBookByIdController } from "@/controller/bookController";
 
-const bookRouter = express.Router();
+const bookRouter = Router();
 
 bookRouter.delete("/delete-book/:id", authMiddleware, checkRoleMiddleware("admin"), deleteBookController);
 bookRouter.put("/updated-Book/:id", authMiddleware, checkRoleMiddleware("admin"), updatedBookController)
