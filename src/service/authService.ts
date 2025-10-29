@@ -129,7 +129,7 @@ export const logoutService = async (req: Request, res: Response) => {
         if (refreshToken) {
             const findUser = await userModel.findOne({ refreshToken })
             if (findUser) {
-                findUser.refreshToken = "",
+                findUser.refreshToken = ""
                     await findUser.save();
             }
         }
