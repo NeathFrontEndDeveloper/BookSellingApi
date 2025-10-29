@@ -28,8 +28,8 @@ const bookSchema = new Schema(
       min: 0,
     },
     category: {
-      type: String,
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Categories",
     },
     stock: {
       type: Number,

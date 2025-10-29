@@ -9,6 +9,7 @@ export interface IUser extends Document {
     phone?: string;
     role: "user" | "admin";
     refreshToken: string;
+    accessToken: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -23,7 +24,7 @@ const userSchema = new Schema<IUser>(
             enum: ["user", "admin"],
             default: "user",
         },
-        refreshToken: { type: String },
+        accessToken: { type: String },
     },
     { timestamps: true },
 );
