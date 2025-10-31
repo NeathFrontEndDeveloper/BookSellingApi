@@ -108,7 +108,7 @@ export const loginService = async (req: Request, res: Response) => {
             accessToken,
             data: {
                 user: {
-                    id: existUser._id,
+                    _id: existUser._id,
                     full_name: existUser.full_name,
                     user_name: existUser.user_name,
                     email: existUser.email,

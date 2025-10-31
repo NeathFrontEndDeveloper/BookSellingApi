@@ -22,7 +22,7 @@ userRouter.put("/updated-users/:id", authMiddleware, checkRoleMiddleware("admin"
 // Delete user (admin only)
 userRouter.delete("/deleted-users/:id", authMiddleware, checkRoleMiddleware("admin"), deleteUserController);
 
-// ✅ Get currently logged-in user
+// Get currently logged-in user
 userRouter.get("/users/profile/me", authMiddleware, getMeController);
 
 export default userRouter;
